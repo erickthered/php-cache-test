@@ -6,8 +6,8 @@ class Cache {
 	public static function start()
 	{
 		self::$_target = $_SERVER['REQUEST_URI'];
-		if ($target == '/') {
-			$target = 'index.php';
+		if (self::$_target == '/') {
+			self::$_target = 'index.php';
 		}
 		self::$_target = './cached/'.self::$_target.'.html';
 
