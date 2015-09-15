@@ -2,6 +2,9 @@
 
 class Cache {
 	protected static $_target = '';
+	protected static $_dir = './cached/';
+	protected static $_perms = 0777;
+	protected static $_recursive = true;
 
 	public static function start()
 	{
@@ -9,10 +12,9 @@ class Cache {
 		if (self::$_target == '/') {
 			self::$_target = 'index.php';
 		}
-		self::$_target = './cached/'.self::$_target.'.html';
+		self::$_target = self::$_dir.self::$_target.'.html';
 
 		if (file_exists(self::$_target)) {
-			error_log('hits cache in PHP');
 			echo file_get_contents(self::$_target);
 			exit();
 		}
@@ -24,7 +26,7 @@ class Cache {
 	{
 		$content = ob_get_contents();
 
-		mkdir(dirname(self::$_target), 0777, true);
+		mkdir(dirname(self::$_target), self::$_perms, self::$_recursive);
 		file_put_contents(self::$_target, $content);
 	}
 }
